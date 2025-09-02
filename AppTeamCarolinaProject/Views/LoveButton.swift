@@ -8,11 +8,31 @@
 import SwiftUI
 
 struct LoveButton: View {
+    
+    @EnvironmentObject var favorites: FavoritesModel
+    @State private var isHearted: Bool = false
+    
+    var art: Artwork
+    
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+        
+        Button() {
+            isHearted = favorites.add(art)
+        } label: {
+            ZStack {
+                Circle()
+                    .foregroundStyle(.white)
+                Image(systemName: isHearted ? "heart.fill" : "heart")
+                    .resizable()
+                    .frame(width: 20, height: 17)
+                    .foregroundStyle(.pink)
+            }
+        }
+        
     }
 }
 
 #Preview {
-    LoveButton()
+    LoveButton(art: Artwork(id: 0, date: "", title: "", artist: "", description: "", primaryimageurl: ""))
+        .environmentObject(FavoritesModel())
 }
